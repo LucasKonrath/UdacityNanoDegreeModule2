@@ -1,4 +1,5 @@
 import express from 'express';
+import {Application, Request, Response, NextFunction, Errback} from "express";
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -29,14 +30,14 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   /**************************************************************************** */
 
-  app.get("/filteredimage", async (req, res) =>{
+  app.get("/filteredimage", async (req:Request, res: Response) =>{
     
-    let imageUrl = req.query.image_url
+    let imageUrl: string = req.query.image_url
     if(imageUrl == undefined)
       res.status(422).send('image url is missing')
 
     filterImageFromURL(imageUrl)
-      .then((filteredPath) =>
+      .then((filteredPath: string) =>
       
       {
           res.sendFile(filteredPath, () =>{
